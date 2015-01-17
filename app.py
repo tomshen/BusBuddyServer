@@ -49,7 +49,7 @@ def stop_routes(stpid=None):
                 'destination': pred.destination,
                 'distance': pred.dist_to_stop / 5280.0,
                 'dir': pred.direction,
-                'eta': pred.eta,
+                'eta': pred.eta.isoformat(),
                 'lat': pred.bus.location[0],
                 'lon': pred.bus.location[1],
                 'rt': pred.route,
