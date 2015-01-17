@@ -24,10 +24,10 @@ class StopLocator(object):
             for direction in ['INBOUND', 'OUTBOUND']:
                 for stop in bustime.stops(rt, direction)['stop']:
                     if stop['stpid'] not in self.stops:
-                        stop['rts'] = { rt: direction }
+                        stop['routes'] = { rt: direction }
                         self.stops[stop['stpid']] = stop
                     else:
-                        self.stops[stop['stpid']]['rts'][rt] = direction
+                        self.stops[stop['stpid']]['routes'][rt] = direction
 
 
         with open('stops.json', 'w') as stops_fp:
@@ -39,7 +39,7 @@ class StopLocator(object):
         origin = geopy.Point(lat, lon)
 
         for stop in self.stops.values():
-            if not rt or rt in stop['rts']:
+            if not rt or rt in stop['routes']:
                 stop = stop.copy()
                 stop['distance'] = geodistance.distance(origin, stop['point']).mi
                 del stop['point']
@@ -48,6 +48,6 @@ class StopLocator(object):
         return sorted(valid_stops,
             key=lambda stop: stop['distance'])[:limit]
 
-    def get_stop_name(self, stpid):
-        return next((stop['stpnm'] for sid, stop in self.stops.items()
+    def get_stop_info(self, stpid):
+        return next((stop for sid, stop in self.stops.items()
             if sid == stpid), None)

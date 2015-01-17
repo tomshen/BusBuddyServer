@@ -96,8 +96,16 @@ Requires Python 2.7
 }
 ```
 
-### GET `/stops/<stpid>/routes`
+### GET `/stops/<stpid>`
 ```javascript
-// /stops/3144/routes
-
+// /stops/3144
+{
+  "id": "3144", 
+  "name": "5th Ave at Bellefonte St", 
+  "predictions": [], 
+  "routes": {
+    "71B": "INBOUND", 
+    "71D": "INBOUND"
+  }
+}
 ```

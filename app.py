@@ -31,13 +31,11 @@ def stops():
     })
 
 
-@app.route('/stops/<stpid>/routes')
+@app.route('/stops/<stpid>')
 def stop_routes(stpid=None):
     stop = Stop.get(bustime, stpid)
-    return jsonify({
-        'id': stop.id,
-        'name': stop_locator.get_stop_name(stop.id),
-        'predictions': [
+    try:
+        predictions = [
             {
                 'destination': pred.destination,
                 'distance': pred.dist_to_stop / 5280.0,
@@ -55,6 +53,14 @@ def stop_routes(stpid=None):
             for pred in stop.predictions()
             if type(pred.bus) is not OfflineBus
         ]
+    except:
+        predictions = []
+    stop_info = stop_locator.get_stop_info(stop.id)
+    return jsonify({
+        'id': stop.id,
+        'name': stop_info['stpnm'],
+        'routes': stop_info['routes'],
+        'predictions': predictions
     })
 
 
