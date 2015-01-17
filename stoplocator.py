@@ -3,7 +3,6 @@ import os.path
 
 import geopy
 import geopy.distance as geodistance
-from pghbustime import Route
 
 class StopLocator(object):
     def __init__(self, bustime, stops_file='stops.json'):
@@ -35,24 +34,20 @@ class StopLocator(object):
             json.dump(self.stops, stops_fp, sort_keys=True, indent=2)
 
 
-    def stops_within(self, lat, lon, max_dist, rt=None):
-        near_stops = []
-        origin = geopy.Point(lat, lon)
-        for stop in self.stops:
-            dist = geodistance.distance(origin, stop['point']).mi
-            if dist < max_dist:
-                if not rt or stop['rt'] == rt:
-                    stop = stop.copy()
-                    del stop['point']
-                    stop['distance'] = dist
-                    near_stops.append(stop)
-        return sorted(near_stops, key=lambda stop: stop['distance'])
-
-
     def closest_stops(self, lat, lon, limit=10, rt=None):
-        dist = 0.5
-        stops = self.stops_within(lat, lon, dist, rt)
-        while len(stops) < 5:
-            dist *= 2
-            stops = self.stops_within(lat, lon, dist, rt)
-        return stops[:limit]
+        valid_stops = []
+        origin = geopy.Point(lat, lon)
+
+        for stop in self.stops:
+            if not rt or stop['rt'] == rt:
+                stop = stop.copy()
+                stop['distance'] = geodistance.distance(origin, stop['point']).mi
+                del stop['point']
+                valid_stops.append(stop)
+
+        return sorted(valid_stops,
+            key=lambda stop: stop['distance'])[:limit]
+
+    def get_stop_name(self, stpid):
+        return next((stop['stpnm'] for stop in self.stops
+            if stop['stpid'] == stpid), None)
