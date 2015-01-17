@@ -13,22 +13,22 @@ class StopLocator(object):
         else:
             self.download_stops(bustime)
 
-        for stop in self.stops:
+        for stop in self.stops.values():
             stop['point'] = geopy.Point(stop['lat'], stop['lon'])
 
 
     def download_stops(self, bustime):
-        stpids = set()
-        self.stops = []
+        self.stops = {}
         for route in bustime.routes()['route']:
             rt = route['rt']
             for direction in ['INBOUND', 'OUTBOUND']:
                 for stop in bustime.stops(rt, direction)['stop']:
-                    if stop['stpid'] not in stpids:
-                        stpids.add(stop['stpid'])
-                        stop['dir'] = direction
-                        stop['rt'] = rt
-                        self.stops.append(stop)
+                    if stop['stpid'] not in self.stops:
+                        stop['rts'] = { rt: direction }
+                        self.stops[stop['stpid']] = stop
+                    else:
+                        self.stops[stop['stpid']]['rts'][rt] = direction
+
 
         with open('stops.json', 'w') as stops_fp:
             json.dump(self.stops, stops_fp, sort_keys=True, indent=2)
@@ -38,8 +38,8 @@ class StopLocator(object):
         valid_stops = []
         origin = geopy.Point(lat, lon)
 
-        for stop in self.stops:
-            if not rt or stop['rt'] == rt:
+        for stop in self.stops.values():
+            if not rt or rt in stop['rts']:
                 stop = stop.copy()
                 stop['distance'] = geodistance.distance(origin, stop['point']).mi
                 del stop['point']
@@ -49,5 +49,5 @@ class StopLocator(object):
             key=lambda stop: stop['distance'])[:limit]
 
     def get_stop_name(self, stpid):
-        return next((stop['stpnm'] for stop in self.stops
-            if stop['stpid'] == stpid), None)
+        return next((stop['stpnm'] for sid, stop in self.stops.items()
+            if sid == stpid), None)
