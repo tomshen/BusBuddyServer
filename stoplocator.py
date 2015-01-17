@@ -25,10 +25,11 @@ class StopLocator(object):
                 for stop in bustime.stops(rt, direction)['stop']:
                     if stop['stpid'] not in self.stops:
                         stop['routes'] = { rt: direction }
+                        stop['lat'] = float(stop['lat'])
+                        stop['lon'] = float(stop['lon'])
                         self.stops[stop['stpid']] = stop
                     else:
                         self.stops[stop['stpid']]['routes'][rt] = direction
-
 
         with open('stops.json', 'w') as stops_fp:
             json.dump(self.stops, stops_fp, sort_keys=True, indent=2)

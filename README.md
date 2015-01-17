@@ -42,8 +42,8 @@ Requires Python 2.7
   "stops": [
     {
       "distance": 0.1001644210848218, 
-      "lat": "40.448971513954", 
-      "lon": "-79.932487500001", 
+      "lat": 40.448971513954, 
+      "lon": -79.932487500001, 
       "routes": {
         "71B": "INBOUND", 
         "71D": "INBOUND"
@@ -53,8 +53,8 @@ Requires Python 2.7
     }, 
     {
       "distance": 0.10600817314439809, 
-      "lat": "40.448874022701", 
-      "lon": "-79.932601073413", 
+      "lat": 40.448874022701, 
+      "lon": -79.932601073413, 
       "routes": {
         "71B": "OUTBOUND", 
         "71D": "OUTBOUND"
@@ -64,8 +64,8 @@ Requires Python 2.7
     }, 
     {
       "distance": 0.13272244473225814, 
-      "lat": "40.451258189964", 
-      "lon": "-79.930556246032", 
+      "lat": 40.451258189964, 
+      "lon": -79.930556246032, 
       "routes": {
         "64": "OUTBOUND"
       }, 
@@ -74,8 +74,8 @@ Requires Python 2.7
     }, 
     {
       "distance": 0.1378829957684234, 
-      "lat": "40.451124008543", 
-      "lon": "-79.930371864419", 
+      "lat": 40.451124008543, 
+      "lon": -79.930371864419, 
       "routes": {
         "64": "INBOUND"
       }, 
@@ -84,13 +84,65 @@ Requires Python 2.7
     }, 
     {
       "distance": 0.141689688469219, 
-      "lat": "40.450573150845", 
-      "lon": "-79.930132302248", 
+      "lat": 40.450573150845, 
+      "lon": -79.930132302248, 
       "routes": {
         "64": "OUTBOUND"
       }, 
       "stpid": "15452", 
       "stpnm": "Negley Ave at Kentkucky Ave"
+    }, 
+    {
+      "distance": 0.14848319197579912, 
+      "lat": 40.448478600603, 
+      "lon": -79.934074333333, 
+      "routes": {
+        "71B": "INBOUND", 
+        "71D": "INBOUND"
+      }, 
+      "stpid": "3145", 
+      "stpnm": "5th Ave at Aiken Ave"
+    }, 
+    {
+      "distance": 0.15083173052827312, 
+      "lat": 40.451991933745, 
+      "lon": -79.930847166667, 
+      "routes": {
+        "64": "INBOUND"
+      }, 
+      "stpid": "8564", 
+      "stpnm": "Negley Ave at Walnut St"
+    }, 
+    {
+      "distance": 0.15260790988611062, 
+      "lat": 40.452172695363, 
+      "lon": -79.931076150135, 
+      "routes": {
+        "64": "OUTBOUND"
+      }, 
+      "stpid": "15453", 
+      "stpnm": "Negley Ave at Walnut St"
+    }, 
+    {
+      "distance": 0.1528984287208414, 
+      "lat": 40.450354520803, 
+      "lon": -79.929910974869, 
+      "routes": {
+        "64": "INBOUND"
+      }, 
+      "stpid": "19995", 
+      "stpnm": "Negley Ave at Kentucky Ave (nearside)"
+    }, 
+    {
+      "distance": 0.15847972041594452, 
+      "lat": 40.44837460485, 
+      "lon": -79.934223937832, 
+      "routes": {
+        "71B": "OUTBOUND", 
+        "71D": "OUTBOUND"
+      }, 
+      "stpid": "3255", 
+      "stpnm": "5th Ave opp Aiken Ave"
     }
   ]
 }
