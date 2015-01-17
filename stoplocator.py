@@ -34,12 +34,12 @@ class StopLocator(object):
             json.dump(self.stops, stops_fp, sort_keys=True, indent=2)
 
 
-    def closest_stops(self, lat, lon, limit=10, rt=None):
+    def closest_stops(self, lat, lon, limit=10, rt=None, direction=None):
         valid_stops = []
         origin = geopy.Point(lat, lon)
 
         for stop in self.stops.values():
-            if not rt or rt in stop['routes']:
+            if not rt or stop['routes'].get(rt) == direction:
                 stop = stop.copy()
                 stop['distance'] = geodistance.distance(origin, stop['point']).mi
                 del stop['point']
@@ -47,6 +47,9 @@ class StopLocator(object):
 
         return sorted(valid_stops,
             key=lambda stop: stop['distance'])[:limit]
+
+    def current_stop(self, lat, lon, rt, direction):
+        return (self.closest_stops(lat, lon, 1, rt, direction) or [None])[0]
 
     def get_stop_info(self, stpid):
         return next((stop for sid, stop in self.stops.items()

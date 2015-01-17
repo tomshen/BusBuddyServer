@@ -1,7 +1,8 @@
+import logging
 import os
 
 from flask import Flask, jsonify, request
-from pghbustime import BustimeAPI, OfflineBus, Route, Stop
+from pghbustime import BustimeAPI, BustimeError, OfflineBus, Route, Stop
 
 from stoplocator import StopLocator
 
@@ -35,6 +36,14 @@ def stops():
 def stop_routes(stpid=None):
     stop = Stop.get(bustime, stpid)
     try:
+        def get_bus_stop(lat, lon, rt, direction):
+            stop = stop_locator.current_stop(lat, lon, rt, direction)
+            del stop['lat']
+            del stop['lon']
+            del stop['distance']
+            del stop['routes']
+            return stop
+
         predictions = [
             {
                 'destination': pred.destination,
@@ -44,17 +53,19 @@ def stop_routes(stpid=None):
                 'lat': pred.bus.location[0],
                 'lon': pred.bus.location[1],
                 'rt': pred.route,
-                'current_stop': (stop_locator.closest_stops(
+                'current_stop': get_bus_stop(
                     pred.bus.location[0],
                     pred.bus.location[1],
-                    1,
-                    pred.route) or [None])[0] # I know this is awful
+                    pred.route,
+                    pred.direction)
             }
             for pred in stop.predictions()
             if type(pred.bus) is not OfflineBus
         ]
-    except:
+    except BustimeError as e:
+        logging.error(e)
         predictions = []
+
     stop_info = stop_locator.get_stop_info(stop.id)
     return jsonify({
         'id': stop.id,
