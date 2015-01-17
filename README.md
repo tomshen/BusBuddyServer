@@ -98,14 +98,71 @@ Requires Python 2.7
 
 ### GET `/stops/<stpid>`
 ```javascript
-// /stops/3144
+// /stops/7117
 {
-  "id": "3144", 
-  "name": "5th Ave at Bellefonte St", 
-  "predictions": [], 
+  "id": "7117", 
+  "name": "Forbes Ave opp Morewood Ave", 
+  "predictions": [
+    {
+      "current_stop": {
+        "stpid": "30", 
+        "stpnm": "Forbes Ave past Bouquet St"
+      }, 
+      "destination": "McKeesport", 
+      "dir": "OUTBOUND", 
+      "distance": 0.7426136363636363, 
+      "eta": "Sat, 17 Jan 2015 17:02:27 GMT", 
+      "lat": 40.44234216863459, 
+      "lon": -79.95583995472302, 
+      "rt": "61C"
+    }, 
+    {
+      "current_stop": {
+        "stpid": "3242", 
+        "stpnm": "Forbes Ave at McAnulty Dr"
+      }, 
+      "destination": "North Braddock", 
+      "dir": "OUTBOUND", 
+      "distance": 2.7738636363636364, 
+      "eta": "Sat, 17 Jan 2015 17:11:31 GMT", 
+      "lat": 40.437850690867805, 
+      "lon": -79.9909233197774, 
+      "rt": "61A"
+    }, 
+    {
+      "current_stop": {
+        "stpid": "3241", 
+        "stpnm": "Forbes Ave at Boyd St"
+      }, 
+      "destination": "Murray-Waterfront", 
+      "dir": "OUTBOUND", 
+      "distance": 2.9854166666666666, 
+      "eta": "Sat, 17 Jan 2015 17:12:31 GMT", 
+      "lat": 40.43851084104726, 
+      "lon": -79.99453284035266, 
+      "rt": "61D"
+    }, 
+    {
+      "current_stop": {
+        "stpid": "20691", 
+        "stpnm": "5th Ave at Smithfield St"
+      }, 
+      "destination": "McKeesport", 
+      "dir": "OUTBOUND", 
+      "distance": 3.216666666666667, 
+      "eta": "Sat, 17 Jan 2015 17:14:14 GMT", 
+      "lat": 40.439916333333336, 
+      "lon": -79.99838266666667, 
+      "rt": "61C"
+    }
+  ], 
   "routes": {
-    "71B": "INBOUND", 
-    "71D": "INBOUND"
+    "61A": "OUTBOUND", 
+    "61B": "OUTBOUND", 
+    "61C": "OUTBOUND", 
+    "61D": "OUTBOUND", 
+    "67": "OUTBOUND", 
+    "69": "OUTBOUND"
   }
 }
 ```
