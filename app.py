@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, jsonify, request
-from pghbustime import BustimeAPI, Route, Stop
+from pghbustime import BustimeAPI, OfflineBus, Route, Stop
 
 from stoplocator import StopLocator
 
@@ -39,14 +39,21 @@ def stop_routes(stpid=None):
         'name': stop_locator.get_stop_name(stop.id),
         'predictions': [
             {
+                'destination': pred.destination,
                 'distance': pred.dist_to_stop / 5280.0,
                 'dir': pred.direction,
                 'eta': pred.eta,
                 'lat': pred.bus.location[0],
                 'lon': pred.bus.location[1],
-                'rt': pred.route
+                'rt': pred.route,
+                'current_stop': (stop_locator.closest_stops(
+                    pred.bus.location[0],
+                    pred.bus.location[1],
+                    1,
+                    pred.route) or [None])[0] # I know this is awful
             }
             for pred in stop.predictions()
+            if type(pred.bus) is not OfflineBus
         ]
     })
 
