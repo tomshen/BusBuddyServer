@@ -39,8 +39,11 @@ def stop_routes(stpid=None):
         'name': stop_locator.get_stop_name(stop.id),
         'predictions': [
             {
+                'distance': pred.dist_to_stop / 5280.0,
                 'dir': pred.direction,
                 'eta': pred.eta,
+                'lat': pred.bus.location[0],
+                'lon': pred.bus.location[1],
                 'rt': pred.route
             }
             for pred in stop.predictions()
